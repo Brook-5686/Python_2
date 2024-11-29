@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 import django
 import urllib.parse
+import html
 
 try:
     from django.conf.urls import url as compat_url
@@ -52,7 +53,7 @@ def get_trigger_view(name, trigger):
         template = get_template("{}.html".format(name))
 
         if name == "xss" and trigger == "raw":
-            template += "<p>XSS: " + user_input + "</p>"
+            template += "<p>XSS: " + html.escape(user_input) + "</p>"
 
         return HttpResponse(template)
 
