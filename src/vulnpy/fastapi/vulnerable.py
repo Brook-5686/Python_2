@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse
-
+import html
 from vulnpy.common import get_template
 
 from vulnpy.trigger import TRIGGER_MAP, get_trigger
@@ -39,7 +39,7 @@ def get_trigger_view(name, trigger):
         template = get_template("{}.html".format(name))
 
         if name == "xss" and trigger == "raw":
-            template += "<p>XSS: " + user_input + "</p>"
+            template += "<p>XSS: " + html.escape(user_input) + "</p>"
 
         return HTMLResponse(template)
 
