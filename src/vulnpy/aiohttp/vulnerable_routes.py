@@ -1,7 +1,7 @@
 from aiohttp import web
 from vulnpy.common import get_template
 from vulnpy.trigger import TRIGGER_MAP, get_trigger
-
+import html
 
 def _get_user_input(request):
     return request.rel_url.query.get("user_input", "")
@@ -26,7 +26,7 @@ def get_trigger_view(name, trigger):
         template = get_template("{}.html".format(name))
 
         if name == "xss" and trigger == "raw":
-            template += "<p>XSS: " + user_input + "</p>"
+            template += "<p>XSS: " + html.escape(user_input) + "</p>"
 
         return web.Response(text=template, content_type="text/html")
 
