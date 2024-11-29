@@ -36,15 +36,22 @@ async def upload_return_large_file(file: UploadFile = File(...)):
 
 @app.get("/cmdi")
 def cmdi(user_input: str):
-    cmd = "echo " + user_input + " this should be echoed"
-    print("Started app view")
-    for i in range(10):
-        print("will echo command")
-        os.system(cmd)
-        print("about to sleep")
-        sleep(3)
-        print("done sleeping")
-    print("Finished app view")
+    allowed_commands = {
+        "hello": "echo hello this should be echoed",
+        "world": "echo world this should be echoed"
+    }
+    if user_input in allowed_commands:
+        cmd = allowed_commands[user_input]
+        print("Started app view")
+        for i in range(10):
+            print("will echo command")
+            os.system(cmd)
+            print("about to sleep")
+            sleep(3)
+            print("done sleeping")
+        print("Finished app view")
+    else:
+        return {"error": "Invalid command"}
 
 
 @app.get("/async_will_block")
