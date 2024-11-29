@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-
+from django.utils.html import escape
 try:
     from django.conf.urls import url as compat_url
 except ImportError:
@@ -33,7 +33,7 @@ def get_trigger_view(name, trigger):
         template = get_template("{}.html".format(name))
 
         if name == "xss" and trigger == "raw":
-            template += "<p>XSS: " + user_input + "</p>"
+            template += "<p>XSS: " + escape(user_input) + "</p>"
 
         return HttpResponse(template)
 
